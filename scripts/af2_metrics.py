@@ -51,6 +51,16 @@ from contigs import parse_contigs
 import util
 
 
+CPD = os.path.abspath(
+    os.path.join(
+        os.path.abspath(__file__),
+        *(3 * [os.pardir])
+    )
+)
+
+ALPHAFOLD_DATA_PATH = os.path.join(CPD, "alphafold_data")
+
+
 def get_args(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument('input_data', help='Folder of TrDesign outputs to process, or a single pdb file')
@@ -238,7 +248,7 @@ def main():
     model_config.data.common.max_extra_msa = 1
     model_config.data.eval.max_msa_clusters = 1
 
-    model_params = data.get_model_haiku_params(model_name=model_name, data_dir="/software/mlfold/alphafold-data")
+    model_params = data.get_model_haiku_params(model_name=model_name, data_dir=ALPHAFOLD_DATA_PATH)
     model_runner = model.RunModel(model_config, model_params)
 
     eval_cfg = model_config.data.eval
